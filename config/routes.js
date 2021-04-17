@@ -44,19 +44,10 @@ module.exports = function (app,connection) {
   app.post('/patient/:docid', async(req, res) => {
     const id=req.body.id;
     const docid=req.params.docid;
-   // console.log(req.body);
-    //const id= req.body.id; 
-    
-    /*const obj=new patdoc({
-        userId:id,
-        Name:name,
-        Age:age,
-       
-    });*/
+   
     const result=await patdoc.findOne({
       userId:id
-      //Name:name,
-      //Age:age
+      
     });
     //console.log(result.Name);
     if(!result){
@@ -72,10 +63,8 @@ module.exports = function (app,connection) {
     
     
     });
-   /* app.get('/pateint/:ids',(req,res)=>{
-         console.log(req.params.ids);
-        // console.log(req.params.ids['pid']);
-    });*/
+    
+  
     async function addPatient(result,docid){
       
       
