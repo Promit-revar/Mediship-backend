@@ -53,19 +53,21 @@ module.exports = function (app,connection) {
         Age:age,
        
     });*/
-    const result=await patdoc.find({
-      userId:id,
+    const result=await patdoc.findOne({
+      userId:id
       //Name:name,
       //Age:age
-    })
-    if(result!==undefined){
+    });
+    //console.log(result.Name);
+    if(!result){
 
-   
+      res.send("No such user exist...");
   
-    addPatient(id,docid);
+  
     }
     else{
-      res.send("No such user exist...")
+      
+      addPatient(result,docid);
     }
     
     
@@ -74,17 +76,18 @@ module.exports = function (app,connection) {
          console.log(req.params.ids);
         // console.log(req.params.ids['pid']);
     });*/
-    async function addPatient(id,docid){
-      //var Doctor=req.flash('doctor');
-      console.log(docid);
-      console.log(id);
+    async function addPatient(result,docid){
+      
+      
       const doctor=await schdoc.findById(docid);
-      const result=await patdoc.find({
-        userId:id,
-      });
+      // doctor.Patients.pop();
+      // result.VisitedDoctors.pop();
       
       
-      console.log(result.Name);//undifined...
-      console.log(doctor.Name);
+      
+      result.VisitedDoctors.push(doctor._id);
+      doctor.Patients.push(result.userId);
+      result.save();
+      doctor.save();
     }
 };
