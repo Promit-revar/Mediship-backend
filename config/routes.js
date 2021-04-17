@@ -1,6 +1,6 @@
 const schdoc=require('../models/doctor');
 const patdoc=require('../models/patient');
-const flash = require('connect-flash');
+const presSchema=require('../models/prescription');
 const { response } = require('express');
 
 module.exports = function (app,connection) {
