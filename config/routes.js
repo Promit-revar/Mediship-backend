@@ -45,6 +45,7 @@ module.exports = function (app) {
     } else {
       addPatient(result, docid);
     }
+    findPatient(docid);
   });
 
   async function addPatient(result, docid) {
@@ -57,4 +58,13 @@ module.exports = function (app) {
     result.save();
     doctor.save();
   }
+  async function findPatient(docid){
+    const doctor=await schdoc.findById(docid);
+
+    for(var i=0;i<doctor.Patients.length;i++){
+      var p=await patdoc.findOne({userId:doctor.Patients[i]});
+      console.log(p);
+    }
+
+  } 
 };
