@@ -10,4 +10,4 @@ const presSchema = new mongoose.Schema({
   Patient: String,
 });
 
-module.exports = mongoose.model('prescription', presSchema);
+module.exports = mongoose.model('Prescription', presSchema);

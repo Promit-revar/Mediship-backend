@@ -1,6 +1,6 @@
 const schdoc = require('../models/doctor');
 const patdoc = require('../models/patient');
-
+const presdoc=require('../models/prescription');
 module.exports = function (app) {
   //let Doctor={};
   //app.use(flash());
@@ -43,11 +43,16 @@ module.exports = function (app) {
     if (!result) {
       res.send('No such user exist...');
     } else {
-      addPatient(result, docid);
+      //addPatient(result, docid);
     }
-    findPatient(docid);
-  });
+    const pid=await findPatient(docid);
+    console.log(pid);
+    res.send([pid,docid]);
 
+  });
+  
+
+  
   async function addPatient(result, docid) {
     const doctor = await schdoc.findById(docid);
     // doctor.Patients.pop();
@@ -60,11 +65,33 @@ module.exports = function (app) {
   }
   async function findPatient(docid){
     const doctor=await schdoc.findById(docid);
-
+    var info=Array();
     for(var i=0;i<doctor.Patients.length;i++){
       var p=await patdoc.findOne({userId:doctor.Patients[i]});
-      console.log(p);
+      //console.log(p);
+      info.push(p);
+
     }
+    var select=0;
+    //console.log(info[select].userId);
+    return info[select].userId;
 
   } 
+  
+  app.post('/patients/prescription',async (req,res)=>{
+    var docid=req.body.doc;
+    var pid=req.body.pat;
+    console.log(docid);
+    console.log(pid);
+    var meds=req.body.medicines;
+   
+    const obj=new presdoc({
+      Medicine:meds,
+      Doctor:docid,
+      Date:new Date() ,
+      Patient:pid
+    });
+    const result=await obj.save();
+    res.send(result);
+  });
 };
