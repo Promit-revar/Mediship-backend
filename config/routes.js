@@ -1,6 +1,7 @@
-const schdoc = require('../models/doctor');
-const patdoc = require('../models/patient');
-const presdoc = require('../models/prescription');
+const doctorSchema = require('../models/doctor');
+const patientSchema = require('../models/patient');
+const prescriptionSchema = require('../models/prescription');
+
 module.exports = function (app) {
   //let Doctor={};
   //app.use(flash());
@@ -11,7 +12,7 @@ module.exports = function (app) {
     console.log(req.body);
     const { name, pass, email, patients } = req.body;
 
-    const obj = new schdoc({
+    const obj = new doctorSchema({
       Name: name,
       Email: email,
       Patients: patients,
@@ -24,7 +25,7 @@ module.exports = function (app) {
   });
   app.post('/authdoctor', async (req, res) => {
     const { pass, mail } = req.body;
-    const result = await schdoc.find({
+    const result = await doctorSchema.find({
       Email: mail,
       Password: pass,
     });
@@ -36,7 +37,7 @@ module.exports = function (app) {
     const id = req.body.id;
     const docid = req.params.docid;
 
-    const result = await patdoc.findOne({
+    const result = await patientSchema.findOne({
       userId: id,
     });
     //console.log(result.Name);
@@ -51,7 +52,7 @@ module.exports = function (app) {
   });
 
   async function addPatient(result, docid) {
-    const doctor = await schdoc.findById(docid);
+    const doctor = await doctorSchema.findById(docid);
     // doctor.Patients.pop();
     // result.VisitedDoctors.pop();
 
@@ -60,11 +61,12 @@ module.exports = function (app) {
     result.save();
     doctor.save();
   }
+
   async function findPatient(docid) {
-    const doctor = await schdoc.findById(docid);
+    const doctor = await doctorSchema.findById(docid);
     var info = Array();
     for (var i = 0; i < doctor.Patients.length; i++) {
-      var p = await patdoc.findOne({ userId: doctor.Patients[i] });
+      var p = await patientSchema.findOne({ userId: doctor.Patients[i] });
       //console.log(p);
       info.push(p);
     }
@@ -80,7 +82,7 @@ module.exports = function (app) {
     console.log(pid);
     var meds = req.body.medicines;
 
-    const obj = new presdoc({
+    const obj = new prescriptionSchema({
       Medicine: meds,
       Doctor: docid,
       Date: new Date(),
