@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const presSchema = new mongoose.Schema({
+
+const prescriptionSchema = new mongoose.Schema({
   Medicine: [
     {
       type: String,
@@ -10,4 +11,4 @@ const presSchema = new mongoose.Schema({
   Patient: String,
 });
 
-module.exports = mongoose.model('Prescription', presSchema);
+module.exports = mongoose.model('Prescription', prescriptionSchema);

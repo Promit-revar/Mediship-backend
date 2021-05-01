@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
-const docSchema = new mongoose.Schema({
+
+const medicineSchema = new mongoose.Schema({
   Name: String,
-
   Company: String,
-
   StoreAvailable: [
     {
       type: String,
@@ -11,4 +10,4 @@ const docSchema = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model('Doctor', docSchema);
+module.exports = mongoose.model('Doctor', medicineSchema);

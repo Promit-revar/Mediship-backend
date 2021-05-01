@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const docSchema = new mongoose.Schema({
+
+const doctorSchema = new mongoose.Schema({
   Name: String,
   Email: String,
   Patients: [
@@ -10,4 +11,4 @@ const docSchema = new mongoose.Schema({
   Password: String,
 });
 
-module.exports = mongoose.model('Doctor', docSchema);
+module.exports = mongoose.model('Doctor', doctorSchema);
